@@ -5,7 +5,7 @@
     --gris-borde: #2e2e2e;
     --texto-principal: #e8e8e8;
     --texto-secundario: #888888;
-    --acento: #c8f000;
+    --acento: #f0f000;
     --fuente-titulo: 'Bebas Neue', sans-serif;
     --fuente-cuerpo: 'Barlow', sans-serif;
     --borde: 1px solid var(--gris-borde);
@@ -28,4 +28,479 @@ body {
 img {
     display: block;
     width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =====================
+        HEADER
+====================== */
+
+.contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+header {
+    background-color: var(--gris-oscuro);
+    border-bottom: var(--borde);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 15px;
+}
+
+.header-interno {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+/* -- LOGO -- */
+.logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.logo-nombre {
+    font-family: var(--fuente-titulo);
+    font-size: 3rem;
+    color: var(--acento);
+    letter-spacing: 4px;
+}
+
+.logo-slogan {
+    font-size: 0.85rem;
+    letter-spacing: 4px;
+    color: var(--texto-secundario);
+}
+
+/* -- NAV -- */
+.nav-principal {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+.nav-enlace {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--texto-principal);
+    transition: color 0.2s;
+}
+
+.nav-enlace:hover {
+    color: var(--acento);
+}
+
+.nav-enlace--cta {
+    border: 1px solid var(--acento);
+    color: var(--texto-principal);
+    padding: 8px 16px;
+}
+
+.nav-enlace--cta:hover{
+    background-color: var(--acento);
+    color: var(--negro);
+}
+
+/* =====================
+        HERO
+====================== */
+
+.hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    background-image: url(img/gimnasio.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.hero-contenido {
+    position: relative;
+    max-width: 700px;
+}
+
+.hero-eyebrow {
+    font: 0.85rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--acento);
+    margin-bottom: 1rem;
+}
+
+.hero-titulo {
+    font-family: var(--fuente-titulo);
+    font-size: 5rem;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+}
+
+.texto-acento {
+    color: var(--acento);
+}
+
+.hero-descripcion {
+    font-size: 1.1rem;
+    color: var(--texto-principal);
+    max-width: 550px;
+    margin-bottom: 2rem;
+}
+
+.hero-botones {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    font-family: var(--fuente-cuerpo);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn--primario {
+    background-color: var(--acento);
+    color: var(--negro);
+}
+
+.btn--primario:hover {
+    background-color: #fff;
+}
+
+.btn--fantasma {
+    border: 1px solid var(--texto-secundario);
+    color: var(--texto-principal);
+}
+
+.btn--fantasma:hover {
+    border-color: var(--acento);
+    color: var(--acento);
+}
+
+/* =====================
+    SECTION BENEFICIOS
+====================== */
+
+.beneficios {
+  background-color: var(--gris-oscuro);
+  padding: 5rem 0;
+}
+
+.beneficios h2 {
+  color: var(--texto-principal);
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  font-family: var(--fuente-titulo);
+  letter-spacing: 2px;
+}
+
+.beneficios-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.beneficios-grid article {
+  background-color: var(--gris-medio);
+  border: var(--borde);
+  padding: 2rem;
+}
+
+.beneficios-grid article span {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.beneficios-grid article h3 {
+  color: var(--texto-principal);
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.beneficios-grid article p {
+  color: var(--texto-secundario);
+  font-size: 1rem;
+}
+
+/* =====================
+  SECCIÓN INSTALACIONES
+====================== */
+
+.instalaciones {
+    background-color: var(--negro);
+    padding: 5rem 0;
+}
+
+.instalaciones h2 {
+    color: var(--texto-principal);
+    font-family: var(--fuente-titulo);
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.instalaciones-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.instalaciones-grid article {
+    background-color: var(--gris-medio);
+    border: var(--borde);
+    overflow: hidden;
+}
+
+.instalaciones-grid article img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.instalaciones-grid h3 {
+    color: var(--texto-principal);
+    font-size: 1.3rem;
+    padding: 1.25rem 1.25rem 0.5rem;
+}
+
+.instalaciones-grid p {
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+    padding: 0 1.25rem 1.25rem;
+}
+
+/* =====================
+  SECCIÓN TARIFAS
+====================== */
+
+.tarifas {
+    background-color: var(--gris-oscuro);
+    padding: 5rem 0 7rem;
+}
+
+.tarifas h2 {
+    color: var(--texto-principal);
+    font-family: var(--fuente-titulo);
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 6rem;
+}
+
+.tarifas-grid {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.tarifas-grid article {
+    background-color: var(--gris-medio);
+    border: var(--borde);
+    padding: 2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.tarifas-grid article.destacado {
+    border-color: var(--acento); 
+    padding: 3.5rem;
+    margin-top: -3rem;
+    margin-bottom: -3rem;
+}
+
+.tarifas-grid article h3 {
+    color: var(--texto-principal);
+    font-family: var(--fuente-titulo);
+    font-size: 1.75rem;
+    letter-spacing: 2px;
+}
+
+.badge {
+    background-color: var(--acento);
+    color: var(--negro);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    display: inline-block;
+}
+
+.precio {
+    font-family: var(--fuente-titulo);
+    font-size: 3rem;
+    color: var(--acento);
+}
+
+.precio span {
+    font-family: var(--fuente-cuerpo);
+    font-size: 1rem;
+    color: var(--texto-secundario);
+}
+
+.tarifas-grid article ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.tarifas-grid article ul li {
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--acento);
+}
+
+.tarifas-grid article .btn {
+    background-color: transparent;
+    border: 1px solid var(--gris-borde);
+    color: var(--texto-principal);
+    text-align: center;
+    margin-top: auto;
+    cursor: pointer;
+}
+
+.tarifas-grid article .btn:hover {
+    border-color: var(--acento);
+    color: var(--acento);
+}
+
+.tarifas-grid article.destacado .btn {
+  background-color: var(--acento);
+  border-color: var(--acento);
+  color: var(--negro);
+}
+
+/* =====================
+    SECCIÓN HORARIOS
+====================== */
+
+.horarios {
+    background-color: var(--negro);
+    padding: 5rem 0;
+}
+
+.horarios h2 {
+    color: var(--texto-principal);
+    font-family: var(--fuente-titulo);
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.horarios table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.horarios th {
+    background-color: var(--gris-medio);
+    color: var(--acento);
+    border: var(--borde);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 1rem;
+    text-align: left;
+}
+
+.horarios td {
+    color: var(--texto-pri);
+    border: var(--borde);
+    font-size: 0.9rem;
+    padding: 0.85rem 1rem;
+}
+
+.horarios tr:hover td {
+    background-color: var(--gris-medio);
+    color: var(--texto-principal);
+}
+
+/* =====================
+        FOOTER
+====================== */
+
+footer {
+    background-color: var(--gris-oscuro);
+    border-top: var(--borde);
+    padding: 2rem 0 1rem;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-inner p {
+    color: var(--texto-secundario);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.footer-inner .logo-nombre {
+    color: var(--acento);
+    font-family: var(--fuente-titulo);
+    font-size: 3rem;
+    letter-spacing: 3px;
+}
+
+.footer-inner .logo-slogan {
+    color: var(--texto-secundario);
+    font-size: 1rem;
+    letter-spacing: 4px;
+    margin-top: -1.4rem;
+}
+
+.footer-inner nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footer-inner nav a {
+    color: var(--texto-secundario);
+    font-size: 0.8rem;
+    transition: color 0.2s;
+}
+
+.footer-inner nav a:hover {
+    color: var(--acento);
+}
+
+.footer-copy {
+    color: var(--texto-muted);
+    font-size: 0.75rem;
+    text-align: center;
+    padding-top: 1rem;
+    color: var(--texto-secundario);
 }
