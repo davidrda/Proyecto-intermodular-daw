@@ -504,3 +504,127 @@ footer {
     padding-top: 1rem;
     color: var(--texto-secundario);
 }
+
+/* =====================
+    MEDIA QUERIES
+====================== */
+
+
+@media (max-width: 768px) {
+
+    .header-interno {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 1rem 0;
+        gap: 1rem;
+    }
+
+    .nav-principal {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .hero-titulo {
+        font-size: 3rem;
+    }
+
+    .hero-botones {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .beneficios-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .instalaciones-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tarifas-grid {
+        flex-direction: column;
+    }
+
+    .tarifas-grid article.destacado {
+        margin: 0;
+    }
+
+    .horarios table {
+        font-size: 0.75rem;
+    }
+
+    .horarios th,
+    .horarios td {
+        padding: 0.5rem;
+    }
+
+    .footer-inner {
+        flex-direction: row;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .footer-inner nav {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
+
+/* =====================
+        NOSOTROS
+====================== */
+
+* {
+    text-align: center;
+}
+
+.pagina-hero {
+    background-color: var(--gris-oscuro);
+    border-bottom: var(--borde);
+    padding: 4rem 0;
+}
+
+.pagina-hero h1 {
+    font-family: var(--fuente-titulo);
+    font-size: 4rem;
+    letter-spacing: 3px;
+    color: var(--texto-principal);
+    margin-bottom: 0.5rem;
+}
+
+.pagina-hero p {
+    color: var(--texto-secundario);
+    font-size: 1rem;
+    letter-spacing: 2px;
+}
+
+.nosotros-contenido {
+    background-color: var(--negro);
+    padding: 5rem 0;
+}
+
+.nosotros-contenido h2 {
+    font-family: var(--fuente-titulo);
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    color: var(--acento);
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+    padding-top: 3rem;
+    border-top: var(--borde);
+
+}
+
+.nosotros-contenido h2:first-child {
+    padding-top: 0;
+    border-top: none;
+}
+
+.nosotros-contenido p {
+    color: var(--texto-secundario);
+    font-size: 1rem;
+    max-width: 800px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.8;
+    text-align: center;
+}
