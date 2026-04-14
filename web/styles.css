@@ -628,3 +628,66 @@ footer {
     line-height: 1.8;
     text-align: center;
 }
+
+/* =====================
+        CONTACTO
+====================== */
+
+.contacto {
+    background-color: var(--negro);
+    padding: 5rem 0;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.campo label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--texto-principal);
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    background-color: var(--gris-medio);
+    border: var(--borde);
+    color: var(--texto-principal);
+    font-family: var(--fuente-cuerpo);
+    font-size: 1rem;
+    padding: 0.85rem 1rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    border-color: var(--acento);
+}
+
+.campo input::placeholder,
+.campo textarea::placeholder {
+    color: var(--texto-secundario);
+}
+
+.campo select option {
+    background-color: var(--gris-medio);
+}
+
+.campo textarea {
+    resize: vertical;
+}

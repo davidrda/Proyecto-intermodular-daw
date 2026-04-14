@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ragnarok Gym Center — Contacto</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+    <header>
+        <div class="contenedor header-interno">
+            <a href="index.html" class="logo">
+                <span class="logo-nombre">RAGNAROK</span>
+                <span class="logo-slogan">GYM CENTER</span>
+            </a>
+            <nav class="nav-principal">
+                <a href="index.html" class="nav-enlace">Inicio</a>
+                <a href="nosotros.html" class="nav-enlace">Nosotros</a>
+                <a href="contacto.html" class="nav-enlace activo">Contacto</a>
+                <a href="index.html#tarifas" class="nav-enlace nav-enlace--cta">Únete</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <section class="pagina-hero">
+        <div class="contenedor">
+            <h1>Contacto</h1>
+            <p>Escríbenos y te respondemos en menos de 24 horas</p>
+        </div>
+        </section>
+
+        <section class="contacto">
+            <div class="contenedor">
+
+                <form class="formulario">
+
+                <div class="campo">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo">
+                </div>
+
+                <div class="campo">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="tu@email.com">
+                </div>
+
+                <div class="campo">
+                    <label for="asunto">Asunto</label>
+                    <select id="asunto" name="asunto">
+                        <option value="">Selecciona un asunto</option>
+                        <option value="informacion">Información</option>
+                        <option value="tarifas">Tarifas</option>
+                        <option value="clases">Clases de artes marciales</option>
+                    <option value="otro">Otro</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="mensaje">Mensaje</label>
+                    <textarea id="mensaje" name="mensaje" rows="6" placeholder="Cuéntanos en qué podemos ayudarte"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn--primario">Enviar mensaje</button>
+
+                </form>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="contenedor footer-inner">
+            <div>
+                <p class="logo-nombre">RAGNAROK</p>
+                <p class="logo-slogan">GYM CENTER</p>
+                <p>Calle Forja Industrial, 42 · Paterna, Valencia</p>
+            </div>
+            <nav>
+                <a href="index.html">Inicio</a>
+                <a href="nosotros.html">Nosotros</a>
+                <a href="contacto.html">Contacto</a>
+            </nav>
+            <div>
+                <p>960 123 456</p>
+                <p>info@ragnarokgym.es</p>
+            </div>
+        </div>
+        <p class="footer-copy">© 2025 Ragnarok Gym Center. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+</html>
