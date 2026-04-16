@@ -26,7 +26,7 @@ un gimnasio ficticio que contará con:
 
 /web → portal web desarrollado con HTML y CSS
 
-/src → código fuente de la aplicación Java
+/sources → código fuente de la aplicación Java
 
 /sql → scripts de base de datos
 
