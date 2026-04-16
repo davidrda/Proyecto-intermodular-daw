@@ -18,19 +18,7 @@ public class ClienteDAO {
         Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement ps = connection.prepareStatement(sql)){
-            ps.setString(1, cliente.getNombre());
-            ps.setString(2, cliente.getApellidos());
-            ps.setString(3, cliente.getDni());
-            ps.setString(4, cliente.getEmail());
-            ps.setString(5, cliente.getTelefono());
-            ps.setDate(6, Date.valueOf(cliente.getFechaAlta()));
-
-            if (cliente.getFechaBaja() != null){
-                ps.setDate(7, Date.valueOf(cliente.getFechaBaja()));
-            } else {
-                ps.setNull(7, Types.DATE);
-            }
-
+            asignarCamposCliente(ps, cliente);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error al insertar cliente " + e.getMessage());
@@ -50,23 +38,7 @@ public class ClienteDAO {
                 ResultSet resultSet = ps.executeQuery()
         ) {
             while (resultSet.next()) {
-
-                Date fechaBajaSql = resultSet.getDate("fecha_baja");
-                LocalDate fechaBaja = (fechaBajaSql != null) ? fechaBajaSql.toLocalDate() : null;
-
-                Cliente cliente = new Cliente(
-                        resultSet.getInt("id_cliente"),
-                        resultSet.getString("nombre"),
-                        resultSet.getString("apellidos"),
-                        resultSet.getString("dni"),
-                        resultSet.getString("email"),
-                        resultSet.getString("telefono"),
-                        resultSet.getDate("fecha_alta").toLocalDate(),
-                        fechaBaja
-                );
-
-                listaClientes.add(cliente);
-
+                listaClientes.add(mapearCliente(resultSet));
             }
 
             return listaClientes;
@@ -82,26 +54,10 @@ public class ClienteDAO {
         Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-
             ps.setInt(1, id);
-
             try (ResultSet resultSet = ps.executeQuery()) {
-
                 if (resultSet.next()) {
-
-                    Date fechaBajaSql = resultSet.getDate("fecha_baja");
-                    LocalDate fechaBaja = (fechaBajaSql != null) ? fechaBajaSql.toLocalDate() : null;
-
-                    return new Cliente(
-                            resultSet.getInt("id_cliente"),
-                            resultSet.getString("nombre"),
-                            resultSet.getString("apellidos"),
-                            resultSet.getString("dni"),
-                            resultSet.getString("email"),
-                            resultSet.getString("telefono"),
-                            resultSet.getDate("fecha_alta").toLocalDate(),
-                            fechaBaja
-                    );
+                    return mapearCliente(resultSet);
                 }
             }
 
@@ -120,21 +76,8 @@ public class ClienteDAO {
         Connection connection = DBConnection.getConnection();
 
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, cliente.getNombre());
-            ps.setString(2, cliente.getApellidos());
-            ps.setString(3, cliente.getDni());
-            ps.setString(4, cliente.getEmail());
-            ps.setString(5, cliente.getTelefono());
-            ps.setDate(6, Date.valueOf(cliente.getFechaAlta()));
-
-            if (cliente.getFechaBaja() != null){
-                ps.setDate(7, Date.valueOf(cliente.getFechaBaja()));
-            } else {
-                ps.setNull(7, Types.DATE);
-            }
-
+            asignarCamposCliente(ps, cliente);
             ps.setInt(8, cliente.getIdCliente());
-
             ps.executeUpdate();
         } catch (SQLException e){
             System.out.println("Error en la actualización del cliente: " + e.getMessage());
@@ -156,6 +99,40 @@ public class ClienteDAO {
 
     }
 
+    /* ========================
+     MÉTODOS DE REFACTORIZACIÓN
+    ======================== */
+    private Cliente mapearCliente(ResultSet resultSet) throws SQLException {
+        Date fechaBajaSql = resultSet.getDate("fecha_baja");
+        LocalDate fechaBaja = (fechaBajaSql != null) ? fechaBajaSql.toLocalDate() : null;
+
+        Cliente cliente = new Cliente(
+                resultSet.getInt("id_cliente"),
+                resultSet.getString("nombre"),
+                resultSet.getString("apellidos"),
+                resultSet.getString("dni"),
+                resultSet.getString("email"),
+                resultSet.getString("telefono"),
+                resultSet.getDate("fecha_alta").toLocalDate(),
+                fechaBaja
+        );
+        return cliente;
+    }
+
+    private void asignarCamposCliente(PreparedStatement ps, Cliente cliente) throws SQLException {
+        ps.setString(1, cliente.getNombre());
+        ps.setString(2, cliente.getApellidos());
+        ps.setString(3, cliente.getDni());
+        ps.setString(4, cliente.getEmail());
+        ps.setString(5, cliente.getTelefono());
+        ps.setDate(6, Date.valueOf(cliente.getFechaAlta()));
+
+        if (cliente.getFechaBaja() != null){
+            ps.setDate(7, Date.valueOf(cliente.getFechaBaja()));
+        } else {
+            ps.setNull(7, Types.DATE);
+        }
+    }
 
 
 }
