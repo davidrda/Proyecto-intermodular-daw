@@ -2,6 +2,7 @@ package dao;
 
 import model.Entrenador;
 import util.DBConnection;
+import util.SchemDB;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -10,24 +11,28 @@ import java.util.List;
 
 public class EntrenadorDAO {
 
-    public void insertar(Entrenador entrenador) {
+    private Connection connection;
+
+    public EntrenadorDAO() {
+        connection = DBConnection.getConnection();
+    }
+
+    public int insertar(Entrenador entrenador) {
         String sql =
                 "INSERT INTO entrenadores (nombre, apellidos, dni, email, telefono, especialidad, fecha_contratacion, fecha_baja)" +
                         " VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-        Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             asignarCamposEntrenador(ps, entrenador);
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error en la inserción de datos de entrenador: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
+        return -1;
     }
 
     public List<Entrenador> listarTodos() {
         String sql = "SELECT * FROM entrenadores";
-
-        Connection connection = DBConnection.getConnection();
         List<Entrenador> listaEntrenadores = new ArrayList<>();
 
         try (
@@ -39,15 +44,13 @@ public class EntrenadorDAO {
             }
             return listaEntrenadores;
         } catch (SQLException e) {
-            System.out.println("Error al listar todos los entrenadores: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             return new ArrayList<>();
         }
     }
 
     public Entrenador buscarPorId(int id) {
         String sql = "SELECT * FROM entrenadores WHERE id_entrenador=?";
-
-        Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -58,59 +61,54 @@ public class EntrenadorDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error en la búsqueda del entrenador: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
         return null;
     }
 
 
-    public void actualizar(Entrenador entrenador) {
+    public int actualizar(Entrenador entrenador) {
         String sql =
                 "UPDATE entrenadores SET nombre=?, apellidos=?, dni=?, email=?, telefono=?, especialidad=?, fecha_contratacion=?, fecha_baja=? " +
-                        "WHERE " +
-                        "id_entrenador=?";
-
-        Connection connection = DBConnection.getConnection();
+                        "WHERE id_entrenador=?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             asignarCamposEntrenador(ps, entrenador);
             ps.setInt(9, entrenador.getIdEntrenador());
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error en la actualización de entrenador: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
+        return -1;
     }
 
-    public void eliminar(int id) {
+    public int eliminar(int id) {
         String sql = "DELETE FROM entrenadores WHERE id_entrenador=?";
-
-        Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error en la eliminación de entrenador: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
+        return -1;
 
     }
 
-    /* =============
-    MÉTODOS
-    ============= */
+    // MÉTODOS
     private Entrenador mapearEntrenador(ResultSet resultSet) throws SQLException {
-        Date fechaBajaSql = resultSet.getDate("fecha_baja");
+        Date fechaBajaSql = resultSet.getDate(SchemDB.ENT_FECHA_BAJA);
         LocalDate fechaBaja = (fechaBajaSql != null) ? fechaBajaSql.toLocalDate() : null;
 
         Entrenador entrenador = new Entrenador(
-                resultSet.getInt("id_entrenador"),
-                resultSet.getString("nombre"),
-                resultSet.getString("apellidos"),
-                resultSet.getString("dni"),
-                resultSet.getString("email"),
-                resultSet.getString("telefono"),
-                resultSet.getString("especialidad"),
-                resultSet.getDate("fecha_contratacion").toLocalDate(),
+                resultSet.getInt(SchemDB.ENT_ID),
+                resultSet.getString(SchemDB.ENT_NOMBRE),
+                resultSet.getString(SchemDB.ENT_APELLIDOS),
+                resultSet.getString(SchemDB.ENT_DNI),
+                resultSet.getString(SchemDB.ENT_EMAIL),
+                resultSet.getString(SchemDB.ENT_TELEFONO),
+                resultSet.getString(SchemDB.ENT_ESPECIALIDAD),
+                resultSet.getDate(SchemDB.ENT_FECHA_CONTRATACION).toLocalDate(),
                 fechaBaja
         );
         return entrenador;

@@ -3,28 +3,33 @@ package dao;
 
 import model.Clase;
 import util.DBConnection;
+import util.SchemDB;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClaseDAO {
+    private Connection connection;
 
-    public void insertar(Clase clase) {
+    public ClaseDAO() {
+        connection = DBConnection.getConnection();
+    }
+
+    public int insertar(Clase clase) {
         String sql =
                 "INSERT INTO clases (id_entrenador, id_sala, nombre, nivel, duracion_minutos) VALUES (?, ?, ?, ?, ?)";
-        Connection connection = DBConnection.getConnection();
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
             asignarCamposClase(ps, clase);
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("Error en la inserción de clases: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
+        return -1;
     }
 
     public List<Clase> listarTodos(){
         String sql = "SELECT * FROM clases";
-        Connection connection = DBConnection.getConnection();
         List<Clase> listaClases = new ArrayList<>();
         try(
                 PreparedStatement ps = connection.prepareStatement(sql);
@@ -35,14 +40,13 @@ public class ClaseDAO {
             }
             return listaClases;
         } catch (SQLException e){
-            System.out.println("Error en listar todas las clases: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             return new ArrayList<>();
         }
     }
 
     public Clase buscarPorId (int id){
         String sql = "SELECT * FROM clases where id_clase = ?";
-        Connection connection = DBConnection.getConnection();
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
@@ -51,46 +55,47 @@ public class ClaseDAO {
                 }
             }
         } catch (SQLException e){
-            System.out.println("Error en buscar por id de clase: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
         return null;
     }
 
-    public void actualizar(Clase clase){
+    public int actualizar(Clase clase){
         String sql = "UPDATE clases SET id_entrenador=?, id_sala=?, nombre=?, nivel=?, duracion_minutos=? WHERE id_clase=?";
-        Connection connection = DBConnection.getConnection();
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
             asignarCamposClase(ps, clase);
             ps.setInt(6, clase.getIdClase());
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("Error en actualizar la clase: " +e.getMessage());
+            System.out.println("Error: " +e.getMessage());
         }
+        return -1;
     }
 
-    public void eliminar(int id){
+    public int eliminar(int id){
         String sql = "DELETE FROM clases WHERE id_clase = ?";
-        Connection connection = DBConnection.getConnection();
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("Error en la eliminación de la clase: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
+        return -1;
     }
 
     // MÉTODOS AUXILIARES
     private Clase mapearClase(ResultSet rs) throws SQLException {
         Clase clase = new Clase(
-                rs.getInt("id_clase"),
-                rs.getInt("id_entrenador"),
-                rs.getInt("id_sala"),
-                rs.getString("nombre"),
-                rs.getString("nivel"),
-                rs.getInt("duracion_minutos")
+                rs.getInt(SchemDB.CLA_ID),
+                rs.getInt(SchemDB.CLA_ID_ENTRENADOR),
+                rs.getInt(SchemDB.CLA_ID_SALA),
+                rs.getString(SchemDB.CLA_NOMBRE),
+                rs.getString(SchemDB.CLA_NIVEL),
+                rs.getInt(SchemDB.CLA_DURACION)
         );
         return clase;
     }
+
     private void asignarCamposClase(PreparedStatement ps, Clase clase) throws SQLException {
         ps.setInt(1, clase.getIdEntrenador());
         ps.setInt(2, clase.getIdSala());

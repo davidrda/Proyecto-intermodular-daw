@@ -2,6 +2,7 @@ package dao;
 
 import model.Cliente;
 import util.DBConnection;
+import util.SchemDB;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -10,26 +11,29 @@ import java.util.List;
 
 public class ClienteDAO {
 
-    public void insertar(Cliente cliente){
+    private Connection connection;
+
+    public ClienteDAO() {
+        connection = DBConnection.getConnection();
+    }
+
+    public int insertar(Cliente cliente){
 
         String sql = "INSERT INTO clientes (nombre, apellidos, dni, email, telefono, fecha_alta, fecha_baja)" +
                 " VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-        Connection connection = DBConnection.getConnection();
-
         try (PreparedStatement ps = connection.prepareStatement(sql)){
             asignarCamposCliente(ps, cliente);
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error al insertar cliente " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
+        return -1;
     }
 
     public List<Cliente> listarTodos() {
 
         String sql = "SELECT * FROM clientes";
-
-        Connection connection = DBConnection.getConnection();
 
         List<Cliente> listaClientes = new ArrayList<>();
 
@@ -43,7 +47,7 @@ public class ClienteDAO {
 
             return listaClientes;
         } catch (SQLException e) {
-            System.out.println("Error al listar todos los clientes: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -51,7 +55,6 @@ public class ClienteDAO {
     public Cliente buscarPorId(int id){
 
         String sql = "SELECT * FROM clientes WHERE id_cliente = ?";
-        Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -62,58 +65,53 @@ public class ClienteDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error en la búsqueda del cliente: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
 
         return null;
     }
 
-    public void actualizar(Cliente cliente){
+    public int actualizar(Cliente cliente){
 
         String sql =
                 "UPDATE clientes SET nombre=?, apellidos=?, dni=?, email=?, telefono=?, fecha_alta=?, fecha_baja=? WHERE id_cliente=?";
 
-        Connection connection = DBConnection.getConnection();
-
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
             asignarCamposCliente(ps, cliente);
             ps.setInt(8, cliente.getIdCliente());
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("Error en la actualización del cliente: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
+        return -1;
     }
 
-    public void eliminar(int id){
+    public int eliminar(int id){
 
         String sql = "DELETE FROM clientes WHERE id_cliente=?";
 
-        Connection connection = DBConnection.getConnection();
-
         try (PreparedStatement ps = connection.prepareStatement(sql)){
             ps.setInt(1, id);
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("Error en la eliminación del cliente: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
-
+        return -1;
     }
 
-    /* ========================
-     MÉTODOS DE REFACTORIZACIÓN
-    ======================== */
+    // MÉTODOS
     private Cliente mapearCliente(ResultSet resultSet) throws SQLException {
-        Date fechaBajaSql = resultSet.getDate("fecha_baja");
+        Date fechaBajaSql = resultSet.getDate(SchemDB.CLI_FECHA_BAJA);
         LocalDate fechaBaja = (fechaBajaSql != null) ? fechaBajaSql.toLocalDate() : null;
 
         Cliente cliente = new Cliente(
-                resultSet.getInt("id_cliente"),
-                resultSet.getString("nombre"),
-                resultSet.getString("apellidos"),
-                resultSet.getString("dni"),
-                resultSet.getString("email"),
-                resultSet.getString("telefono"),
-                resultSet.getDate("fecha_alta").toLocalDate(),
+                resultSet.getInt(SchemDB.CLI_ID),
+                resultSet.getString(SchemDB.CLI_NOMBRE),
+                resultSet.getString(SchemDB.CLI_APELLIDOS),
+                resultSet.getString(SchemDB.CLI_DNI),
+                resultSet.getString(SchemDB.CLI_EMAIL),
+                resultSet.getString(SchemDB.CLI_TELEFONO),
+                resultSet.getDate(SchemDB.CLI_FECHA_ALTA).toLocalDate(),
                 fechaBaja
         );
         return cliente;

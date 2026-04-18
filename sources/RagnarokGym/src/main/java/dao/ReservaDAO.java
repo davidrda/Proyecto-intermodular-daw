@@ -2,6 +2,7 @@ package dao;
 
 import model.Reserva;
 import util.DBConnection;
+import util.SchemDB;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,26 +10,29 @@ import java.util.List;
 
 public class ReservaDAO {
 
-    public void insertar(Reserva reserva){
+    private Connection connection;
+
+    public ReservaDAO() {
+        connection = DBConnection.getConnection();
+    }
+
+    public int insertar(Reserva reserva){
 
         String sql = "INSERT INTO reservas (id_cliente=?, id_horario=?, fecha_reserva=?, estado=?)" +
                 " VALUES(?, ?, ?, ?)";
 
-        Connection connection = DBConnection.getConnection();
-
         try (PreparedStatement ps = connection.prepareStatement(sql)){
             asignarCamposReserva(ps, reserva);
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error al insertar reserva " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
+        return -1;
     }
 
     public List<Reserva> listarTodos() {
 
         String sql = "SELECT * FROM reservas";
-
-        Connection connection = DBConnection.getConnection();
 
         List<Reserva> listaReservas = new ArrayList<>();
 
@@ -39,10 +43,9 @@ public class ReservaDAO {
             while (resultSet.next()) {
                 listaReservas.add(mapearReserva(resultSet));
             }
-
             return listaReservas;
         } catch (SQLException e) {
-            System.out.println("Error al listar todas las reservas: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             return new ArrayList<>();
         }
     }
@@ -50,7 +53,6 @@ public class ReservaDAO {
     public Reserva buscarPorId(int id){
 
         String sql = "SELECT * FROM reservas WHERE id_reserva = ?";
-        Connection connection = DBConnection.getConnection();
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -61,40 +63,37 @@ public class ReservaDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error en la búsqueda de la reservas: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
-
         return null;
     }
 
-    public void actualizar(Reserva reserva){
+    public int actualizar(Reserva reserva){
 
         String sql =
                 "UPDATE reservas SET id_cliente=?, id_horario=?, fecha_reserva=?, estado=? WHERE id_reserva=?";
 
-        Connection connection = DBConnection.getConnection();
-
         try(PreparedStatement ps = connection.prepareStatement(sql)) {
             asignarCamposReserva(ps, reserva);
             ps.setInt(5, reserva.getIdReserva());
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("Error en la actualización de la reserva: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
+        return -1;
     }
 
-    public void eliminar(int id){
+    public int eliminar(int id){
 
         String sql = "DELETE FROM reservas WHERE id_reserva=?";
 
-        Connection connection = DBConnection.getConnection();
-
         try (PreparedStatement ps = connection.prepareStatement(sql)){
             ps.setInt(1, id);
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException e){
-            System.out.println("Error en la eliminación de la reserva: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
+        return -1;
 
     }
 
@@ -109,7 +108,6 @@ public class ReservaDAO {
                 "JOIN horarios h ON r.id_horario = h.id_horario " +
                 "JOIN clases cl ON h.id_clase = cl.id_clase";
 
-        Connection connection = DBConnection.getConnection();
         List<String> resultado = new ArrayList<>();
 
         try (
@@ -117,36 +115,33 @@ public class ReservaDAO {
                 ResultSet rs = ps.executeQuery()
         ) {
             while (rs.next()) {
-                String linea = "[" + rs.getInt("id_reserva") + "] " +
-                        rs.getString("cliente_nombre") + " " +
-                        rs.getString("cliente_apellidos") +
-                        " | " + rs.getString("clase_nombre") +
-                        " | " + rs.getString("dia_semana") +
-                        " " + rs.getTime("hora_inicio") +
-                        "-" + rs.getTime("hora_fin") +
-                        " | Fecha: " + rs.getDate("fecha_reserva").toLocalDate() +
-                        " | Estado: " + rs.getString("estado");
+                String linea = "[" + rs.getInt(SchemDB.RES_ID) + "] " +
+                        rs.getString(SchemDB.CLI_NOMBRE) + " " +
+                        rs.getString(SchemDB.CLI_APELLIDOS) +
+                        " | " + rs.getString(SchemDB.CLA_NOMBRE) +
+                        " | " + rs.getString(SchemDB.HOR_DIA_SEMANA) +
+                        " " + rs.getTime(SchemDB.HOR_HORA_INICIO) +
+                        "-" + rs.getTime(SchemDB.HOR_HORA_FIN) +
+                        " | Fecha: " + rs.getDate(SchemDB.RES_FECHA_RESERVA).toLocalDate() +
+                        " | Estado: " + rs.getString(SchemDB.RES_ESTADO);
                 resultado.add(linea);
             }
             return resultado;
         } catch (SQLException e) {
-            System.out.println("Error al listar reservas detalladas: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             return new ArrayList<>();
         }
     }
 
-    /* ========================
-     MÉTODOS DE REFACTORIZACIÓN
-    ======================== */
-
+    // MÉTODOS
     private Reserva mapearReserva(ResultSet rs) throws SQLException {
 
         Reserva reserva = new Reserva(
-                rs.getInt("id_cliente"),
-                rs.getInt("id_reserva"),
-                rs.getInt("id_horario"),
-                rs.getDate("fecha_reserva").toLocalDate(),
-                rs.getString("estado")
+                rs.getInt(SchemDB.RES_ID_CLIENTE),
+                rs.getInt(SchemDB.RES_ID),
+                rs.getInt(SchemDB.RES_ID_HORARIO),
+                rs.getDate(SchemDB.RES_FECHA_RESERVA).toLocalDate(),
+                rs.getString(SchemDB.RES_ESTADO)
         );
         return reserva;
     }
