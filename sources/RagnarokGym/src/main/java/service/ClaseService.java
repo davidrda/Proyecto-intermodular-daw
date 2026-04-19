@@ -2,19 +2,23 @@ package service;
 
 import dao.ClaseDAO;
 import model.Clase;
+import model.Entrenador;
 
 import java.util.List;
 
 public class ClaseService {
 
     private ClaseDAO claseDAO;
+    private EntrenadorService entrenadorService;
 
     public ClaseService() {
         claseDAO = new ClaseDAO();
+        entrenadorService = new EntrenadorService();
     }
 
     public int insertar(Clase clase) {
         validarClase(clase);
+        validarEntrenadorExiste(clase.getIdEntrenador());
         return claseDAO.insertar(clase);
     }
 
@@ -64,6 +68,14 @@ public class ClaseService {
     private void validarNoVacio(String valor, String campo) {
         if (valor == null || valor.trim().isEmpty()) {
             throw new IllegalArgumentException("El campo " + campo + " no puede estar vacío");
+        }
+    }
+
+    private void validarEntrenadorExiste(int idEntrenador) {
+        try {
+            entrenadorService.buscarPorId(idEntrenador);
+        } catch (IllegalArgumentException e){
+            throw new IllegalArgumentException("El entrenador con ID " + idEntrenador + " no existe");
         }
     }
 }

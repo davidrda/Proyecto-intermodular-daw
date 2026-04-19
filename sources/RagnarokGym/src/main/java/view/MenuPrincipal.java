@@ -33,29 +33,29 @@ public class MenuPrincipal {
         } while (opcion != 0);
     }
 
-    public void abrirMenuClases(){
+    private void abrirMenuClases(){
         MenuClases menuClases = new MenuClases();
         menuClases.mostrar();
     }
 
-    public void abrirMenuClientes(){
+    private void abrirMenuClientes(){
         MenuClientes menuClientes = new MenuClientes();
         menuClientes.mostrar();
     }
 
 
-    public void abrirMenuPagos(){
+    private void abrirMenuPagos(){
         MenuPagos menuPagos = new MenuPagos();
         menuPagos.mostrar();
     }
 
-    public void abrirMenuReservas(){
+    private void abrirMenuReservas(){
         MenuReservas menuReservas = new MenuReservas();
         menuReservas.mostrar();
     }
 
-    public void abrirMenuEntrenadores(){
-        MenuEntrenador menuEntrenador = new MenuEntrenador();
+    private void abrirMenuEntrenadores(){
+        MenuEntrenadores menuEntrenador = new MenuEntrenadores();
         menuEntrenador.mostrar();
     }
 }

@@ -1,16 +1,22 @@
 package service;
 
 import dao.ClienteDAO;
+import dao.PagoDAO;
 import model.Cliente;
+import model.Pago;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteService {
 
     private ClienteDAO clienteDAO;
+    private PagoService pagoService;
 
     public ClienteService() {
         clienteDAO = new ClienteDAO();
+        pagoService = new PagoService();
     }
 
     public int insertar(Cliente cliente) {
@@ -36,13 +42,26 @@ public class ClienteService {
         return clienteDAO.actualizar(cliente);
     }
 
-    public int eliminar(int id){
+    public int eliminar(int id) {
         Cliente cliente = clienteDAO.buscarPorId(id);
         if (cliente == null) {
             throw new IllegalArgumentException("El id que has introducido no existe en la base de datos");
         }
+        if (tienePagos(id)) {
+            throw new IllegalArgumentException("No se puede eliminar un cliente con pagos registrados. Usa la opción de dar de baja.");
+        }
         return clienteDAO.eliminar(id);
     }
+
+    public int darDeBaja(int id) {
+        Cliente cliente = clienteDAO.buscarPorId(id);
+        if (cliente == null) {
+            throw new IllegalArgumentException("El id que has introducido no existe en la base de datos");
+        }
+        cliente.setFechaBaja(LocalDate.now());
+        return clienteDAO.actualizar(cliente);
+    }
+
 
     // VALIDACIONES
     private void validarCliente(Cliente cliente){
@@ -81,5 +100,14 @@ public class ClienteService {
         if (clienteDAO.buscarPorDni(dni) != null) {
             throw new IllegalArgumentException("Ya existe un cliente con ese DNI");
         }
+    }
+
+    private boolean tienePagos(int idCliente){
+        for (Pago p : pagoService.listarTodos()) {
+            if (p.getIdCliente() == idCliente) {
+                return true;
+            }
+        }
+        return false;
     }
 }
