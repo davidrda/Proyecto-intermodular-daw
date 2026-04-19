@@ -1,46 +1,33 @@
-# Proyecto Intermodular DAW
+# Proyecto Intermodular DAW — Ragnarok Gym Center
 
-Este repositorio contiene el desarrollo del Proyecto Intermodular de 1º del ciclo
-formativo de Desarrollo de Aplicaciones Web (DAW).
+Este repositorio contiene el desarrollo del Proyecto Intermodular de 1º del ciclo formativo de Desarrollo de Aplicaciones Web (DAW).
 
-## Proyecto
+El proyecto consiste en diseñar y desarrollar un sistema completo para **Ragnarok Gym Center**, un gimnasio ficticio, cubriendo desde la maquetación del portal web hasta la aplicación de gestión en Java conectada a una base de datos relacional.
 
-El proyecto consiste en el desarrollo de un sistema para **Ragnarok Gym Center**, 
-un gimnasio ficticio que contará con:
+## Fases del proyecto
 
-- portal web corporativo
-- sistema de gestión de clientes
-- gestión de reservas de clases
-- base de datos para almacenar la información del gimnasio
+El desarrollo se estructura en tres fases que replican el flujo de trabajo real de un desarrollador web:
+
+- **Fase web** — Portal corporativo del gimnasio en HTML y CSS. Diseño con maquetación semántica, Flexbox, Grid y variables CSS. Ubicado en `/web`.
+- **Fase base de datos** — Modelo relacional con MariaDB. Gestión de clientes, entrenadores, clases, horarios, reservas, salas, servicios y pagos. Scripts SQL de creación, inserción y consultas en `/sql`.
+- **Fase Java** — Aplicación de consola con arquitectura en capas (view, service, dao, model) que se conecta a la base de datos vía JDBC. Ubicada en `/sources/RagnarokGym`. Más información en el [README del proyecto Java](sources/RagnarokGym/README.md).
+
+## Estructura del repositorio
+
+```
+/web          → portal web (HTML/CSS)
+/sql          → scripts de base de datos (MariaDB)
+/sources      → código fuente de la aplicación Java
+/diagrams     → diagramas E-R y modelo relacional
+```
 
 ## Tecnologías utilizadas
 
-- Java
-- JDBC
-- MySQL
-- HTML
-- CSS
-- Git y GitHub
-
-## Estructura inicial del proyecto
-
-/web → portal web desarrollado con HTML y CSS
-
-/sources → código fuente de la aplicación Java
-
-/sql → scripts de base de datos
-
-/diagrams → diagramas del proyecto (modelo entidad-relación, diagramas de clases, etc.)
-
-/docs → documentación del proyecto
-
-## Estado del proyecto
-
-El proyecto se encuentra actualmente en fase inicial de diseño y planificación.
-A lo largo del desarrollo se irán añadiendo las distintas funcionalidades,
-diagramas y documentación.
+- **Frontend**: HTML5, CSS3
+- **Base de datos**: MariaDB, DBeaver
+- **Backend**: Java 25, JDBC, Lombok, Maven
+- **Control de versiones**: Git, GitHub
 
 ## Autor
 
-David Ramírez de Arellano Aparisi
-1º DAW
+David Ramírez de Arellano Aparisi — 1º DAW
