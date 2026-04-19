@@ -1,8 +1,8 @@
 package dao;
 
 import model.Pago;
-import util.DBConnection;
-import util.SchemDB;
+import database.DBConnection;
+import database.SchemDB;
 
 import java.sql.*;
 import java.util.ArrayList;

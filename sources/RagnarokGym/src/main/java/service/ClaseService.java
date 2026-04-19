@@ -3,6 +3,7 @@ package service;
 import dao.ClaseDAO;
 import model.Clase;
 import model.Entrenador;
+import util.Validador;
 
 import java.util.List;
 
@@ -49,8 +50,8 @@ public class ClaseService {
 
     // VALIDACIONES
     private void validarClase(Clase clase) {
-        validarNoVacio(clase.getNombre(), "nombre");
-        validarNoVacio(clase.getNivel(), "nivel");
+        Validador.validarNoVacio(clase.getNombre(), "nombre");
+        Validador.validarNoVacio(clase.getNivel(), "nivel");
 
         if (clase.getDuracionMinutos() <= 0) {
             throw new IllegalArgumentException("La duración debe ser mayor que 0");
@@ -62,12 +63,6 @@ public class ClaseService {
 
         if (clase.getIdSala() <= 0) {
             throw new IllegalArgumentException("El id de la sala no es válido");
-        }
-    }
-
-    private void validarNoVacio(String valor, String campo) {
-        if (valor == null || valor.trim().isEmpty()) {
-            throw new IllegalArgumentException("El campo " + campo + " no puede estar vacío");
         }
     }
 

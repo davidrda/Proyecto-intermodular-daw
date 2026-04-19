@@ -4,6 +4,8 @@ import dao.ClienteDAO;
 import dao.PagoDAO;
 import model.Cliente;
 import model.Pago;
+import model.Reserva;
+import util.Validador;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,10 +15,12 @@ public class ClienteService {
 
     private ClienteDAO clienteDAO;
     private PagoService pagoService;
+    private ReservaService reservaService;
 
     public ClienteService() {
         clienteDAO = new ClienteDAO();
         pagoService = new PagoService();
+        reservaService = new ReservaService();
     }
 
     public int insertar(Cliente cliente) {
@@ -50,6 +54,9 @@ public class ClienteService {
         if (tienePagos(id)) {
             throw new IllegalArgumentException("No se puede eliminar un cliente con pagos registrados. Usa la opción de dar de baja.");
         }
+        if (tieneReservas(id)) {
+            throw new IllegalArgumentException("No se puede eliminar un cliente con reservas registradas. Elimina su reserva.");
+        }
         return clienteDAO.eliminar(id);
     }
 
@@ -65,36 +72,19 @@ public class ClienteService {
 
     // VALIDACIONES
     private void validarCliente(Cliente cliente){
-        validarNoVacio(cliente.getNombre(), "nombre");
-        validarNoVacio(cliente.getApellidos(), "apellidos");
-        validarNoVacio(cliente.getDni(), "DNI");
-        validarNoVacio(cliente.getEmail(), "email");
-        validarNoVacio(cliente.getTelefono(), "telefono");
+        Validador.validarNoVacio(cliente.getNombre(), "nombre");
+        Validador.validarNoVacio(cliente.getApellidos(), "apellidos");
+        Validador.validarNoVacio(cliente.getDni(), "DNI");
+        Validador.validarNoVacio(cliente.getEmail(), "email");
+        Validador.validarNoVacio(cliente.getTelefono(), "telefono");
 
-        validarSinNumeros(cliente.getNombre(), "nombre");
-        validarSinNumeros(cliente.getApellidos(), "apellidos");
+        Validador.validarSinNumeros(cliente.getNombre(), "nombre");
+        Validador.validarSinNumeros(cliente.getApellidos(), "apellidos");
 
-        validarSinLetra(cliente.getTelefono(), "telefono");
+        Validador.validarSinLetras(cliente.getTelefono(), "telefono");
 
     }
 
-    private void validarNoVacio (String valor, String campo) {
-        if (valor == null || valor.trim().isEmpty()) {
-            throw new IllegalArgumentException("El campo " + campo + " no puede estar vacío");
-        }
-    }
-
-    private void validarSinNumeros(String valor, String campo) {
-        if (valor.matches(".*\\d.*")) {
-            throw new IllegalArgumentException("El campo " + campo + " no puede contener números");
-        }
-    }
-
-    private void validarSinLetra(String valor, String campo) {
-        if (valor.matches(".*\\p{L}.*")) {
-            throw new IllegalArgumentException("El campo " + campo + " no puede contener letras");
-        }
-    }
 
     private void validarDniUnico(String dni){
         if (clienteDAO.buscarPorDni(dni) != null) {
@@ -105,6 +95,15 @@ public class ClienteService {
     private boolean tienePagos(int idCliente){
         for (Pago p : pagoService.listarTodos()) {
             if (p.getIdCliente() == idCliente) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean tieneReservas(int idCliente){
+        for (Reserva r : reservaService.listarTodos()) {
+            if (r.getIdCliente() == idCliente) {
                 return true;
             }
         }

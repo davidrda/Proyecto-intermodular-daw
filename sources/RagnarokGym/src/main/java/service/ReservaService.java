@@ -2,6 +2,7 @@ package service;
 
 import dao.ReservaDAO;
 import model.Reserva;
+import util.Validador;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -66,12 +67,6 @@ public class ReservaService {
             throw new IllegalArgumentException("La fecha de reserva no puede ser anterior a hoy");
         }
 
-        validarNoVacio(reserva.getEstado(), "estado");
-    }
-
-    private void validarNoVacio(String valor, String campo) {
-        if (valor == null || valor.trim().isEmpty()) {
-            throw new IllegalArgumentException("El campo " + campo + " no puede estar vacío");
-        }
+        Validador.validarNoVacio(reserva.getEstado(), "estado");
     }
 }

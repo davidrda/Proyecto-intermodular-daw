@@ -1,8 +1,8 @@
 package dao;
 
 import model.Reserva;
-import util.DBConnection;
-import util.SchemDB;
+import database.DBConnection;
+import database.SchemDB;
 
 import java.sql.*;
 import java.util.ArrayList;

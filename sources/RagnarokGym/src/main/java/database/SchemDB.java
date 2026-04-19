@@ -1,4 +1,4 @@
-package util;
+package database;
 
 public interface SchemDB {
 

@@ -2,8 +2,8 @@ package dao;
 
 
 import model.Clase;
-import util.DBConnection;
-import util.SchemDB;
+import database.DBConnection;
+import database.SchemDB;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -72,15 +72,17 @@ public class ClaseDAO {
         return -1;
     }
 
-    public int eliminar(int id){
+    public int eliminar(int id) {
         String sql = "DELETE FROM clases WHERE id_clase = ?";
-        try(PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             return ps.executeUpdate();
-        } catch (SQLException e){
-            System.out.println("Error: " + e.getMessage());
+        } catch (SQLException e) {
+            if (e.getMessage().contains("foreign key constraint")) {
+                throw new IllegalArgumentException("No se puede eliminar la clase porque tiene datos asociados");
+            }
+            throw new IllegalArgumentException("Error al eliminar la clase: " + e.getMessage());
         }
-        return -1;
     }
 
     // MÉTODOS AUXILIARES

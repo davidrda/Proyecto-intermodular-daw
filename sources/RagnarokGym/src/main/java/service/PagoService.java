@@ -2,6 +2,7 @@ package service;
 
 import dao.PagoDAO;
 import model.Pago;
+import util.Validador;
 
 import java.util.List;
 
@@ -53,8 +54,8 @@ public class PagoService {
             throw new IllegalArgumentException("El id del cliente no es válido");
         }
 
-        validarNoVacio(pago.getMetodoPago(), "método de pago");
-        validarNoVacio(pago.getEstado(), "estado");
+        Validador.validarNoVacio(pago.getMetodoPago(), "método de pago");
+        Validador.validarNoVacio(pago.getEstado(), "estado");
 
         if (pago.getFechaPago() == null) {
             throw new IllegalArgumentException("La fecha de pago no puede estar vacía");
@@ -62,12 +63,6 @@ public class PagoService {
 
         if (pago.getImporte() <= 0) {
             throw new IllegalArgumentException("El importe debe ser mayor que 0");
-        }
-    }
-
-    private void validarNoVacio(String valor, String campo) {
-        if (valor == null || valor.trim().isEmpty()) {
-            throw new IllegalArgumentException("El campo " + campo + " no puede estar vacío");
         }
     }
 }

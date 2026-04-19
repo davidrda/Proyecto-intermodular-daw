@@ -2,6 +2,7 @@ package service;
 
 import dao.EntrenadorDAO;
 import model.Entrenador;
+import util.Validador;
 
 import java.util.List;
 
@@ -45,34 +46,17 @@ public class EntrenadorService {
 
     // VALIDACIONES
     private void validarEntrenador(Entrenador entrenador) {
-        validarNoVacio(entrenador.getNombre(), "nombre");
-        validarNoVacio(entrenador.getApellidos(), "apellidos");
-        validarNoVacio(entrenador.getDni(), "DNI");
-        validarNoVacio(entrenador.getEmail(), "email");
-        validarNoVacio(entrenador.getTelefono(), "teléfono");
-        validarNoVacio(entrenador.getEspecialidad(), "especialidad");
+        Validador.validarNoVacio(entrenador.getNombre(), "nombre");
+        Validador.validarNoVacio(entrenador.getApellidos(), "apellidos");
+        Validador.validarNoVacio(entrenador.getDni(), "DNI");
+        Validador.validarNoVacio(entrenador.getEmail(), "email");
+        Validador.validarNoVacio(entrenador.getTelefono(), "teléfono");
+        Validador.validarNoVacio(entrenador.getEspecialidad(), "especialidad");
 
-        validarSinNumeros(entrenador.getNombre(), "nombre");
-        validarSinNumeros(entrenador.getApellidos(), "apellidos");
+        Validador.validarSinNumeros(entrenador.getNombre(), "nombre");
+        Validador.validarSinNumeros(entrenador.getApellidos(), "apellidos");
 
-        validarSinLetras(entrenador.getTelefono(), "teléfono");
+        Validador.validarSinLetras(entrenador.getTelefono(), "teléfono");
     }
 
-    private void validarNoVacio(String valor, String campo) {
-        if (valor == null || valor.trim().isEmpty()) {
-            throw new IllegalArgumentException("El campo " + campo + " no puede estar vacío");
-        }
-    }
-
-    private void validarSinNumeros(String valor, String campo) {
-        if (valor.matches(".*\\d.*")) {
-            throw new IllegalArgumentException("El campo " + campo + " no puede contener números");
-        }
-    }
-
-    private void validarSinLetras(String valor, String campo) {
-        if (valor.matches(".*\\p{L}.*")) {
-            throw new IllegalArgumentException("El campo " + campo + " no puede contener letras");
-        }
-    }
 }

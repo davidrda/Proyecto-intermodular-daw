@@ -150,12 +150,8 @@ public class MenuClases {
         int id = scanner.nextInt();
 
         try {
-            int resultado = claseService.eliminar(id);
-            if (resultado > 0) {
-                System.out.println("Clase eliminada correctamente");
-            } else {
-                System.out.println("No se puede eliminar la clase");
-            }
+            claseService.eliminar(id);
+            System.out.println("Clase eliminada correctamente");
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
