@@ -71,6 +71,21 @@ public class ClienteDAO {
         return null;
     }
 
+    public Cliente buscarPorDni(String dni) {
+        String sql = "SELECT * FROM clientes WHERE dni = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, dni);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapearCliente(rs);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
+    }
+
     public int actualizar(Cliente cliente){
 
         String sql =

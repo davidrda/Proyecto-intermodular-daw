@@ -1,6 +1,6 @@
 package view;
 
-public class MenuClientes {
+public class MenuPagos {
 
     public void mostrar(){
 
