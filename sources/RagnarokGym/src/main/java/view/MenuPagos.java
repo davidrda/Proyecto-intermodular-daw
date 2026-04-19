@@ -5,50 +5,33 @@ import service.PagoService;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Scanner;
 
-public class MenuPagos {
+public class MenuPagos extends MenuBase{
 
     private PagoService pagoService;
-    private Scanner scanner;
 
     public MenuPagos() {
+        super();
         pagoService = new PagoService();
-        scanner = new Scanner(System.in);
     }
 
-    public void mostrar() {
-
-        int opcion = 0;
-
-        do {
-            System.out.println("""
-                === MENÚ PAGOS ===
-                | 0. Salir
-                | 1. Insertar
-                | 2. Listar todos
-                | 3. Buscar por ID
-                | 4. Actualizar
-                | 5. Eliminar
-                
-                Elige una opción:
-                """);
-
-            opcion = scanner.nextInt();
-
-            switch (opcion) {
-                case 1 -> insertar();
-                case 2 -> listarTodos();
-                case 3 -> buscarPorId();
-                case 4 -> actualizar();
-                case 5 -> eliminar();
-                case 0 -> System.out.println("Saliendo...");
-                default -> System.out.println("Opción no válida");
-            }
-        } while (opcion != 0);
+    @Override
+    protected String getTextoMenu() {
+        return """
+            === MENÚ PAGOS ===
+            | 0. Salir
+            | 1. Insertar
+            | 2. Listar todos
+            | 3. Buscar por ID
+            | 4. Actualizar
+            | 5. Eliminar
+            
+            Elige una opción:
+            """;
     }
 
-    private void insertar() {
+    @Override
+    protected void insertar() {
         scanner.nextLine(); // Limpia el buffer
 
         System.out.println("Inserta el ID del servicio: ");
@@ -80,7 +63,8 @@ public class MenuPagos {
         }
     }
 
-    private void listarTodos() {
+    @Override
+    protected void listarTodos() {
         List<Pago> pagos = pagoService.listarTodos();
         if (pagos.isEmpty()) {
             System.out.println("No hay pagos en la lista");
@@ -91,7 +75,8 @@ public class MenuPagos {
         }
     }
 
-    private void buscarPorId() {
+    @Override
+    protected void buscarPorId() {
         scanner.nextLine(); // Limpia el buffer
 
         System.out.println("Introduce el id: ");
@@ -105,7 +90,8 @@ public class MenuPagos {
         }
     }
 
-    private void actualizar() {
+    @Override
+    protected void actualizar() {
         scanner.nextLine(); // Limpia el buffer
 
         System.out.println("Inserta el ID del pago a actualizar: ");
@@ -149,7 +135,8 @@ public class MenuPagos {
         }
     }
 
-    private void eliminar() {
+    @Override
+    protected void eliminar() {
         scanner.nextLine();
 
         System.out.println("Introduce el id: ");

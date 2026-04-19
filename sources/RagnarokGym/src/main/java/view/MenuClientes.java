@@ -7,50 +7,47 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
-public class MenuClientes {
+public class MenuClientes extends MenuBase{
 
     private ClienteService clienteService;
-    private Scanner scanner;
 
     public MenuClientes() {
+        super();
         clienteService = new ClienteService();
-        scanner = new Scanner(System.in);
     }
 
-    public void mostrar(){
-
-        int opcion = 0;
-
-        do {
-            System.out.println("""
-                === MENÚ CLIENTES ===
-                | 0. Salir
-                | 1. Insertar
-                | 2. Listar todos
-                | 3. Buscar por ID
-                | 4. Actualizar
-                | 5. Eliminar
-                | 6. Dar de baja
-                
-                Elige una opción:
-                """);
-
-            opcion = scanner.nextInt();
-
-            switch (opcion) {
-                case 1 -> insertar();
-                case 2 -> listarTodos();
-                case 3 -> buscarPorId();
-                case 4 -> actualizar();
-                case 5 -> eliminar();
-                case 6 -> darDeBaja();
-                case 0 -> System.out.println("Saliendo...");
-                default -> System.out.println("Opción no válida");
-            }
-        } while (opcion != 0);
+    @Override
+    protected String getTextoMenu() {
+        return """
+        === MENÚ CLIENTES ===
+        | 0. Salir
+        | 1. Insertar
+        | 2. Listar todos
+        | 3. Buscar por ID
+        | 4. Actualizar
+        | 5. Eliminar
+        | 6. Dar de baja
+        
+        Elige una opción:
+        """;
     }
 
-    private void insertar() {
+    @Override
+    protected void ejecutarOpcion(int opcion) {
+        switch (opcion) {
+            case 1 -> insertar();
+            case 2 -> listarTodos();
+            case 3 -> buscarPorId();
+            case 4 -> actualizar();
+            case 5 -> eliminar();
+            case 6 -> darDeBaja();
+            case 0 -> System.out.println("Saliendo...");
+            default -> System.out.println("Opción no válida");
+        }
+    }
+
+    @Override
+    protected void insertar() {
         scanner.nextLine(); // Limpia el buffer
 
         System.out.println("Inserta el nombre: ");
@@ -81,7 +78,8 @@ public class MenuClientes {
         }
     }
 
-    private void listarTodos(){
+    @Override
+    protected void listarTodos(){
         List<Cliente> clientes = clienteService.listarTodos();
         if (clientes.isEmpty()){
             System.out.println("No hay clientes en la lista");
@@ -92,7 +90,8 @@ public class MenuClientes {
         }
     }
 
-    private void buscarPorId(){
+    @Override
+    protected void buscarPorId(){
         scanner.nextLine(); // Limpia el buffer
 
         System.out.println("Introduce el id: ");
@@ -106,7 +105,8 @@ public class MenuClientes {
         }
     }
 
-    private void actualizar(){
+    @Override
+    protected void actualizar(){
         scanner.nextLine(); // Limpia el buffer
 
         System.out.println("Inserta el ID del cliente a actualizar: ");
@@ -148,7 +148,8 @@ public class MenuClientes {
         }
     }
 
-    private void eliminar(){
+    @Override
+    protected void eliminar(){
         scanner.nextLine();
 
         System.out.println("Introduce el id: ");

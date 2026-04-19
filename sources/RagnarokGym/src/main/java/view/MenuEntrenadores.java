@@ -7,48 +7,32 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
-public class MenuEntrenadores {
+public class MenuEntrenadores extends MenuBase{
 
     private EntrenadorService entrenadorService;
-    private Scanner scanner;
 
     public MenuEntrenadores() {
+        super();
         entrenadorService = new EntrenadorService();
-        scanner = new Scanner(System.in);
     }
 
-    public void mostrar() {
-
-        int opcion = 0;
-
-        do {
-            System.out.println("""
-                === MENÚ ENTRENADORES ===
-                | 0. Salir
-                | 1. Insertar
-                | 2. Listar todos
-                | 3. Buscar por ID
-                | 4. Actualizar
-                | 5. Eliminar
-                
-                Elige una opción:
-                """);
-
-            opcion = scanner.nextInt();
-
-            switch (opcion) {
-                case 1 -> insertar();
-                case 2 -> listarTodos();
-                case 3 -> buscarPorId();
-                case 4 -> actualizar();
-                case 5 -> eliminar();
-                case 0 -> System.out.println("Saliendo...");
-                default -> System.out.println("Opción no válida");
-            }
-        } while (opcion != 0);
+    @Override
+    protected String getTextoMenu() {
+        return """
+            === MENÚ ENTRENADORES ===
+            | 0. Salir
+            | 1. Insertar
+            | 2. Listar todos
+            | 3. Buscar por ID
+            | 4. Actualizar
+            | 5. Eliminar
+            
+            Elige una opción:
+            """;
     }
 
-    private void insertar() {
+    @Override
+    protected void insertar() {
         scanner.nextLine(); // Limpia el buffer
 
         System.out.println("Inserta el nombre: ");
@@ -81,7 +65,8 @@ public class MenuEntrenadores {
         }
     }
 
-    private void listarTodos() {
+    @Override
+    protected void listarTodos() {
         List<Entrenador> entrenadores = entrenadorService.listarTodos();
         if (entrenadores.isEmpty()) {
             System.out.println("No hay entrenadores en la lista");
@@ -92,7 +77,8 @@ public class MenuEntrenadores {
         }
     }
 
-    private void buscarPorId() {
+    @Override
+    protected void buscarPorId() {
         scanner.nextLine(); // Limpia el buffer
 
         System.out.println("Introduce el id: ");
@@ -106,7 +92,8 @@ public class MenuEntrenadores {
         }
     }
 
-    private void actualizar() {
+    @Override
+    protected void actualizar() {
         scanner.nextLine(); // Limpia el buffer
 
         System.out.println("Inserta el ID del entrenador a actualizar: ");
@@ -152,7 +139,8 @@ public class MenuEntrenadores {
         }
     }
 
-    private void eliminar() {
+    @Override
+    protected void eliminar() {
         scanner.nextLine();
 
         System.out.println("Introduce el id: ");

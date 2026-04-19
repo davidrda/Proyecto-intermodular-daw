@@ -7,50 +7,47 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
-public class MenuReservas {
+public class MenuReservas extends MenuBase{
 
     private ReservaService reservaService;
-    private Scanner scanner;
 
     public MenuReservas() {
+        super();
         reservaService = new ReservaService();
-        scanner = new Scanner(System.in);
     }
 
-    public void mostrar() {
-
-        int opcion = 0;
-
-        do {
-            System.out.println("""
-                === MENÚ RESERVAS ===
-                | 0. Salir
-                | 1. Insertar
-                | 2. Listar todas
-                | 3. Listar detalladas
-                | 4. Buscar por ID
-                | 5. Actualizar
-                | 6. Eliminar
-                
-                Elige una opción:
-                """);
-
-            opcion = scanner.nextInt();
-
-            switch (opcion) {
-                case 1 -> insertar();
-                case 2 -> listarTodos();
-                case 3 -> listarDetalladas();
-                case 4 -> buscarPorId();
-                case 5 -> actualizar();
-                case 6 -> eliminar();
-                case 0 -> System.out.println("Saliendo...");
-                default -> System.out.println("Opción no válida");
-            }
-        } while (opcion != 0);
+    @Override
+    protected String getTextoMenu() {
+        return """
+            === MENÚ RESERVAS ===
+            | 0. Salir
+            | 1. Insertar
+            | 2. Listar todas
+            | 3. Listar detalladas
+            | 4. Buscar por ID
+            | 5. Actualizar
+            | 6. Eliminar
+            
+            Elige una opción:
+            """;
     }
 
-    private void insertar() {
+    @Override
+    protected void ejecutarOpcion(int opcion) {
+        switch (opcion) {
+            case 1 -> insertar();
+            case 2 -> listarTodos();
+            case 3 -> listarDetalladas();
+            case 4 -> buscarPorId();
+            case 5 -> actualizar();
+            case 6 -> eliminar();
+            case 0 -> System.out.println("Saliendo...");
+            default -> System.out.println("Opción no válida");
+        }
+    }
+
+    @Override
+    protected void insertar() {
         scanner.nextLine(); // Limpia el buffer
 
         System.out.println("Inserta el ID del cliente: ");
@@ -75,7 +72,8 @@ public class MenuReservas {
         }
     }
 
-    private void listarTodos() {
+    @Override
+    protected void listarTodos() {
         List<Reserva> reservas = reservaService.listarTodos();
         if (reservas.isEmpty()) {
             System.out.println("No hay reservas en la lista");
@@ -97,7 +95,8 @@ public class MenuReservas {
         }
     }
 
-    private void buscarPorId() {
+    @Override
+    protected void buscarPorId() {
         scanner.nextLine(); // Limpia el buffer
 
         System.out.println("Introduce el id: ");
@@ -111,7 +110,8 @@ public class MenuReservas {
         }
     }
 
-    private void actualizar() {
+    @Override
+    protected void actualizar() {
         scanner.nextLine(); // Limpia el buffer
 
         System.out.println("Inserta el ID de la reserva a actualizar: ");
@@ -145,7 +145,8 @@ public class MenuReservas {
         }
     }
 
-    private void eliminar() {
+    @Override
+    protected void eliminar() {
         scanner.nextLine();
 
         System.out.println("Introduce el id: ");
