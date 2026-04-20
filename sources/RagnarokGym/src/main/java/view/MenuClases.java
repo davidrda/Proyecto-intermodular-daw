@@ -4,7 +4,6 @@ import model.Clase;
 import service.ClaseService;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class MenuClases extends MenuBase{
 
