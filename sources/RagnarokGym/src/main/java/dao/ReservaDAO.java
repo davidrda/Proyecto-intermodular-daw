@@ -18,7 +18,7 @@ public class ReservaDAO {
 
     public int insertar(Reserva reserva){
 
-        String sql = "INSERT INTO reservas (id_cliente=?, id_horario=?, fecha_reserva=?, estado=?)" +
+        String sql = "INSERT INTO reservas (id_cliente, id_horario, fecha_reserva, estado)" +
                 " VALUES(?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)){
@@ -116,9 +116,9 @@ public class ReservaDAO {
         ) {
             while (rs.next()) {
                 String linea = "[" + rs.getInt(SchemDB.RES_ID) + "] " +
-                        rs.getString(SchemDB.CLI_NOMBRE) + " " +
-                        rs.getString(SchemDB.CLI_APELLIDOS) +
-                        " | " + rs.getString(SchemDB.CLA_NOMBRE) +
+                        rs.getString("cliente_nombre") + " " +
+                        rs.getString("cliente_apellidos") +
+                        " | " + rs.getString("clase_nombre") +
                         " | " + rs.getString(SchemDB.HOR_DIA_SEMANA) +
                         " " + rs.getTime(SchemDB.HOR_HORA_INICIO) +
                         "-" + rs.getTime(SchemDB.HOR_HORA_FIN) +
@@ -137,8 +137,8 @@ public class ReservaDAO {
     private Reserva mapearReserva(ResultSet rs) throws SQLException {
 
         Reserva reserva = new Reserva(
-                rs.getInt(SchemDB.RES_ID_CLIENTE),
                 rs.getInt(SchemDB.RES_ID),
+                rs.getInt(SchemDB.RES_ID_CLIENTE),
                 rs.getInt(SchemDB.RES_ID_HORARIO),
                 rs.getDate(SchemDB.RES_FECHA_RESERVA).toLocalDate(),
                 rs.getString(SchemDB.RES_ESTADO)
