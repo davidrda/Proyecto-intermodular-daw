@@ -1,5 +1,7 @@
 -- Inserción de datos
 
+USE gimnasio_ragnarok;
+
 INSERT INTO servicios(nombre, precio, fecha_alta) VALUES
     ('Musculación', 39.99, '2026-01-07'),
     ('Lucha',       49.99, '2026-02-16'),
